@@ -1,14 +1,14 @@
 {
   "name": "tigrinhos-fiec-server",
   "version": "1.0.0",
-  "description": "Nao era para escrever isso",
+  "description": "Servidor para jogo de apostas educativo da FIEC",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://proffillipesilva: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@github.com/proffillipesilva/tigrinhos-fiec-server.git"
+    "url": "git+https://proffillipesilva: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@github.com/proffillipesilva/tigrinhos-fiec-server.git"
   },
   "keywords": [],
   "author": "",
