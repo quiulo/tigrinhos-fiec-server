@@ -4,7 +4,8 @@
   "description": "Servidor para jogo de apostas educativo da FIEC",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node build/index.js",
+    "build": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/proffillipesilva/tigrinhos-fiec-server/issues"
   },
-  "homepage": "https://github.com/proffillipesilva/tigrinhos-fiec-server#readme"
+  "homepage": "https://github.com/proffillipesilva/tigrinhos-fiec-server#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
 }
