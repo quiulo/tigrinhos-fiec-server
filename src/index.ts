@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import http from 'http';
+import app from './config';
 
 const nomeApp = ["Tigrinhos Fiec 2024"]
 
@@ -10,25 +11,6 @@ dotenv.config({ path: `.env.local` })
 
 console.log(`${nomeApp} vai rodar na porta ${process.env.PORT}`);
 
-const server = http.createServer( (req: http.IncomingMessage, res: http.ServerResponse) => {
-    
-    if(req.method === 'GET'){
-        if(req.url === '/users'){
-            res.end("Resposta para o GET no recurso users");
-        } else {
-            res.end("Resposta para o GET na raiz")
-        }
-        
-    } else if(req.method === 'POST'){
-        res.end("Resposta para o POST")
-    }else if(req.method === 'PUT'){
-        res.end("Resposta para o PUT")
-    } else {
-        res.end("Resposta para o DELETE")
-    }
-    
-
-
-} );
+const server = http.createServer(app);
 
 server.listen(process.env.PORT, () => "Servidor Inicializado");
