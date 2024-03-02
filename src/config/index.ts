@@ -7,25 +7,54 @@ const app = express();
 app.use(cors());
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
 app.use(express.json())
-app.use(express.urlencoded());
+//app.use(express.urlencoded());
 
-app.get('/', (req: Request, res: Response) => {
-    res.status(200).send("Resposta do GET");
+type Pedido = {
+    id: string
+    nome: string
+}
+
+const pedidos: Pedido[] = [ { id: '323', nome: 'Abacaxi'}, { id: '325', nome: 'Pera'}];
+
+app.get('/pedidos', (req: Request, res: Response) => {
+    return res.status(200).json(pedidos);
 })
 
-app.get('/:parametro', (req: Request, res: Response) => {
-    console.log(req.params.parametro);
-    res.status(200).send("Resposta do GET com parametros");
+app.get('/pedidos/:id', (req: Request, res: Response) => {
+    //console.log(req.params.parametro);
+    //res.status(200).send("Resposta do GET com parametros");
+    const pedido = pedidos.find(p => p.id === req.params.id);
+    if(pedido){
+        return res.status(200).json(pedido);
+    } 
+    return res.status(404).end("Not found");
+    
 })
 
-app.get('/query/custom', (req: Request, res: Response) => {
-    console.log(req.query.nome);
-    res.status(200).send("Resposta do GET com query");
+app.post('/pedidos', (req:Request, res: Response) => {
+    const pedido = req.body;
+    pedidos.push(req.body);
+    return res.status(201).send("Pedido Adicionado");
 })
 
-app.post('/', (req: Request, res: Response) => {
-    console.log(req.body);
-    res.status(200).send("Resposta do POST com json");
+app.put('/pedidos/:id', (req:Request, res:Response) => {
+    const pedido = req.body;
+    const index = pedidos.findIndex(p => p.id === req.params.id);
+    if(index >= 0){
+        pedidos.splice(index, 1, pedido);
+        return res.status(200).end("Update OK");
+    }
+    return res.status(404).end("Not found");
+})
+
+app.delete('/pedidos/:id', (req:Request, res:Response) => {
+    
+    const index = pedidos.findIndex(p => p.id === req.params.id);
+    if(index >= 0){
+        pedidos.splice(index, 1);
+        return res.status(200).end("Delete OK");
+    }
+    return res.status(404).end("Not found");
 })
 
 export default app;
