@@ -2,6 +2,7 @@ import { v4 } from "uuid";
 import { Usuario } from "../../business/Usuario";
 import { MyDB } from "../../db/MyDB";
 import { UsuarioService } from "../UsuarioService";
+import { UsuarioRequestDto } from "../../dto/UsuarioRequestDto";
 
 
 export class UsuarioServiceImpl implements UsuarioService {
@@ -12,11 +13,14 @@ export class UsuarioServiceImpl implements UsuarioService {
         this.usuarioRepositorio = MyDB.usuarios;
     }
 
-    criaUsuario(cpf: string, name: string, email: string): Promise<Usuario> {
+    criaUsuario(usuarioRequestDto: UsuarioRequestDto): Promise<Usuario> {
+        const {cpf, name, email} = usuarioRequestDto;
         const usuarioNovo = new Usuario();
         usuarioNovo.cpf = cpf;
         usuarioNovo.email = email;
         usuarioNovo.name = name;
+        usuarioNovo.createdAt = new Date();
+        usuarioNovo.updateAt = new Date();
 
         // crio o ID dinamicamente
         usuarioNovo.id = v4();
