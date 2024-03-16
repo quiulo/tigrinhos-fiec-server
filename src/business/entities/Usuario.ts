@@ -1,5 +1,6 @@
-export class Usuario {
-    id: string
+import { Base } from "./Base"
+
+export class Usuario extends Base {
     cpf: string
     name: string
     email: string

@@ -1,4 +1,4 @@
-import { Usuario } from "../business/Usuario";
+import { Usuario } from "../business/entities/Usuario";
 import { UsuarioRequestDto } from "../dto/UsuarioRequestDto";
 
 export interface UsuarioService {
