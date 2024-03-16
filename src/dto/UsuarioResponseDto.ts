@@ -1,4 +1,4 @@
-import { Usuario } from "../business/Usuario"
+import { Usuario } from "../business/entities/Usuario"
 
 export class UsuarioResponseDto {
     id: string

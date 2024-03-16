@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { UsuarioServiceImpl } from "../services/impl/UsuarioServiceImpl";
 import { UsuarioController } from "../controllers/UsuarioController";
+import { UsuarioRepositorio } from "../business/repositories/UsuarioRepositorio";
 
-const userService = new UsuarioServiceImpl();
+const userRepo = new UsuarioRepositorio();
+const userService = new UsuarioServiceImpl(userRepo);
 const usuarioController = new UsuarioController(userService);
 
 const usuarioRouter = Router();
