@@ -14,7 +14,6 @@ export class UsuarioController {
 
     criaUsuario = async (req: Request, res: Response) => {
         try {
-            //const { cpf, name, email } = req.body;
             const usuarioRequestDto = UsuarioRequestDtoValidation.parse(req.body);
             const usuarioNovo = await this.usuarioService.criaUsuario(usuarioRequestDto);
             const usuarioResponseDto = UsuarioResponseDto.from(usuarioNovo);
