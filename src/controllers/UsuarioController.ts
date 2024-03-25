@@ -37,7 +37,10 @@ export class UsuarioController {
             const params = UsuarioRequestDtoParams.parse(req.params)
             const usuario = await this.usuarioService.pegaUsuario(params.id);
             if(usuario)
-                return res.json(UsuarioResponseDto.from(usuario));
+                return res.status(200).json(UsuarioResponseDto.from(usuario));
+            else
+                return res.status(404).end("User Not found")
+
         } catch (err) {
             return res.status(404).end("User Not found")
         }
