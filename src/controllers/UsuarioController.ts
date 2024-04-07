@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { UsuarioService } from "../services/UsuarioService";
+import { UsuarioRequestDtoParams, UsuarioRequestDtoValidation } from "../dto/UsuarioRequestDto";
+import { ZodError } from "zod";
+import { UsuarioResponseDto } from "../dto/UsuarioResponseDto";
 
 export class UsuarioController {
 
@@ -11,24 +14,33 @@ export class UsuarioController {
 
     criaUsuario = async (req: Request, res: Response) => {
         try {
-            const { cpf, name, email } = req.body;
-            const usuarioNovo = await this.usuarioService.criaUsuario(cpf, name, email);
-            return res.status(201).json(usuarioNovo);
+            const usuarioRequestDto = UsuarioRequestDtoValidation.parse(req.body);
+            const usuarioNovo = await this.usuarioService.criaUsuario(usuarioRequestDto);
+            const usuarioResponseDto = UsuarioResponseDto.from(usuarioNovo);
+            return res.status(201).json(usuarioResponseDto);
         } catch (err) {
+            if(err instanceof ZodError){
+                return res.status(400).json(err.issues);
+            }
             return res.status(500).end('Nao pode criar usuario')
         }
     }
 
     listaUsuarios = async (req: Request, res: Response) => {
         const usuarios = await this.usuarioService.listaUsuarios();
-        return res.json(usuarios);
+        const usuariosDto = usuarios.map(u => UsuarioResponseDto.from(u))
+        return res.json(usuariosDto);
     }
 
     pegaUsuario = async (req: Request, res: Response) => {
         try {
-            const id = req.params.id;
-            const usuario = await this.usuarioService.pegaUsuario(id);
-            return res.json(usuario);
+            const params = UsuarioRequestDtoParams.parse(req.params)
+            const usuario = await this.usuarioService.pegaUsuario(params.id);
+            if(usuario)
+                return res.status(200).json(UsuarioResponseDto.from(usuario));
+            else
+                return res.status(404).end("User Not found")
+
         } catch (err) {
             return res.status(404).end("User Not found")
         }
@@ -36,8 +48,8 @@ export class UsuarioController {
 
     deletaUsuario = async (req: Request, res: Response) => {
         try {
-            const id = req.params.id;
-            await this.usuarioService.deletaUsuario(id);
+            const params = UsuarioRequestDtoParams.parse(req.params)
+            await this.usuarioService.deletaUsuario(params.id);
             return res.status(200).end("Usuario removido");
         } catch (err) {
             return res.status(404).end("User Not found")

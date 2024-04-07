@@ -3,6 +3,8 @@ import cors from 'cors'
 import morgan from 'morgan'
 import usuarioRouter from '../routes/usuarioRouter';
 
+
+
 const app = express();
 
 app.use(cors());
